@@ -20,6 +20,8 @@ buildRosPackage {
   nativeBuildInputs = [ ament-cmake-ros ];
 
   postFixup = ''
+    echo "======listing out recursively========="
+    ls -lR $out
     find $out -type f -name "*.pc" | while read pc; do
       substituteInPlace "$pc" --replace "//nix/store" "/nix/store"
     done
