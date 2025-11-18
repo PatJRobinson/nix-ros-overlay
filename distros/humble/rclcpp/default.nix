@@ -13,17 +13,22 @@ buildRosPackage {
     sha256 = "6ecc7943b78b4559db067649c24a1dce194bcbfd522f24c0c67a712683a04795";
   };
 
-  postPatch = ''
-    substituteInPlace include/rclcpp/rclcpp/publisher_options.hpp \
-      --replace 'PublisherOptionsWithAllocator<Allocator>() {}' \
-                'PublisherOptionsWithAllocator() {}'
-  '';
-
   buildType = "ament_cmake";
   buildInputs = [ ament-cmake-gen-version-h ament-cmake-ros python3 ];
   checkInputs = [ ament-cmake-gmock ament-cmake-google-benchmark ament-cmake-gtest ament-lint-auto ament-lint-common mimick-vendor performance-test-fixture rmw rmw-implementation-cmake rosidl-default-generators test-msgs ];
   propagatedBuildInputs = [ ament-index-cpp builtin-interfaces libstatistics-collector rcl rcl-interfaces rcl-yaml-param-parser rcpputils rcutils rmw rosgraph-msgs rosidl-runtime-cpp rosidl-typesupport-c rosidl-typesupport-cpp statistics-msgs tracetools ];
   nativeBuildInputs = [ ament-cmake-gen-version-h ament-cmake-ros python3 ];
+
+  postInstall = ''
+    echo "Patching publisher_options.hpp for local code..."
+    # path relative to $out of your package
+    pc_file="$out/include/rclcpp/rclcpp/publisher_options.hpp"
+    if [ -f "$pc_file" ]; then
+      substituteInPlace "$pc_file" \
+        --replace 'PublisherOptionsWithAllocator<Allocator>() {}' \
+                  'PublisherOptionsWithAllocator() {}'
+    fi
+  '';
 
   meta = {
     description = ''The ROS client library in C++.'';
