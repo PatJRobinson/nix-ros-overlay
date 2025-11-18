@@ -20,13 +20,22 @@ buildRosPackage {
   nativeBuildInputs = [ ament-cmake-gen-version-h ament-cmake-ros python3 ];
 
   postInstall = ''
-    echo "Patching publisher_options.hpp for local code..."
-    # path relative to $out of your package
-    pc_file="$out/include/rclcpp/rclcpp/publisher_options.hpp"
-    if [ -f "$pc_file" ]; then
-      substituteInPlace "$pc_file" \
+    echo "Patching publisher and subscription options headers..."
+
+    # Patch PublisherOptionsWithAllocator
+    pc_pub="$out/include/rclcpp/rclcpp/publisher_options.hpp"
+    if [ -f "$pc_pub" ]; then
+      substituteInPlace "$pc_pub" \
         --replace 'PublisherOptionsWithAllocator<Allocator>() {}' \
                   'PublisherOptionsWithAllocator() {}'
+    fi
+
+    # Patch SubscriptionOptionsWithAllocator
+    pc_sub="$out/include/rclcpp/rclcpp/subscription_options.hpp"
+    if [ -f "$pc_sub" ]; then
+      substituteInPlace "$pc_sub" \
+        --replace 'SubscriptionOptionsWithAllocator<Allocator>() {}' \
+                  'SubscriptionOptionsWithAllocator() {}'
     fi
   '';
 
