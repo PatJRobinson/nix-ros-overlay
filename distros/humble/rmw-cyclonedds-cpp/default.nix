@@ -19,9 +19,11 @@ buildRosPackage {
   propagatedBuildInputs = [ cyclonedds iceoryx-binding-c rcpputils rcutils rmw rmw-dds-common rosidl-runtime-c rosidl-typesupport-introspection-c rosidl-typesupport-introspection-cpp tracetools ];
   nativeBuildInputs = [ ament-cmake-ros ];
 
-  preInstall = ''
+  installPhase = ''
+    runHook preInstall
     echo "======listing out recursively========="
     ls -lR $out
+    runHook postInstall
   '';
 
   postFixup = ''
