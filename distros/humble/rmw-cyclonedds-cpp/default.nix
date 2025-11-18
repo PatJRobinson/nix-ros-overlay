@@ -20,10 +20,8 @@ buildRosPackage {
   nativeBuildInputs = [ ament-cmake-ros ];
 
   postFixup = ''
-    # Remove double slashes in pkg-config files
-    for pc in $out/lib/pkgconfig/*.pc; do
-      substituteInPlace "$pc" \
-        --replace "//nix/store" "/nix/store"
+    find $out -type f -name "*.pc" | while read pc; do
+      substituteInPlace "$pc" --replace "//nix/store" "/nix/store"
     done
   '';
 
