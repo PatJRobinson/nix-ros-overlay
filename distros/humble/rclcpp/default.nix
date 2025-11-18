@@ -13,6 +13,12 @@ buildRosPackage {
     sha256 = "6ecc7943b78b4559db067649c24a1dce194bcbfd522f24c0c67a712683a04795";
   };
 
+  postPatch = ''
+    substituteInPlace include/rclcpp/rclcpp/publisher_options.hpp \
+      --replace 'PublisherOptionsWithAllocator<Allocator>() {}' \
+                'PublisherOptionsWithAllocator() {}'
+  '';
+
   buildType = "ament_cmake";
   buildInputs = [ ament-cmake-gen-version-h ament-cmake-ros python3 ];
   checkInputs = [ ament-cmake-gmock ament-cmake-google-benchmark ament-cmake-gtest ament-lint-auto ament-lint-common mimick-vendor performance-test-fixture rmw rmw-implementation-cmake rosidl-default-generators test-msgs ];
