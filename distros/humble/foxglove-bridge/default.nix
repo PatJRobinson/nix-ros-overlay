@@ -12,6 +12,10 @@ buildRosPackage {
     sha256 = "f037427a3fb9f79cb8560fbec8ee716bfa51ae13f384111202c0343a1042239c";
   };
 
+  env = {
+    ROS_VERSION = "2";
+  };
+
   buildType = "ament_cmake";
   buildInputs = [ ament-cmake asio nlohmann_json websocketpp ];
   checkInputs = [ ament-cmake-gtest ];
