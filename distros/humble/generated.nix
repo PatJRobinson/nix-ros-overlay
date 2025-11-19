@@ -422,6 +422,8 @@ self: super: {
 
  foxglove-msgs = self.callPackage ./foxglove-msgs {};
 
+ foxglove-bridge = self.callPackage ./foxglove-bridge {};
+
  gazebo-dev = self.callPackage ./gazebo-dev {};
 
  gazebo-msgs = self.callPackage ./gazebo-msgs {};
