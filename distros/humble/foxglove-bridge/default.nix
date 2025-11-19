@@ -1,4 +1,3 @@
-
 # Copyright 2022 Open Source Robotics Foundation
 # Distributed under the terms of the BSD license
 
