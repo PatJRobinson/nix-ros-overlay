@@ -19,12 +19,6 @@ buildRosPackage {
   propagatedBuildInputs = [ cyclonedds iceoryx-binding-c rcpputils rcutils rmw rmw-dds-common rosidl-runtime-c rosidl-typesupport-introspection-c rosidl-typesupport-introspection-cpp tracetools ];
   nativeBuildInputs = [ ament-cmake-ros ];
 
-  postFixup = ''
-    find $out -type f -name "*.pc" | while read pc; do
-      substituteInPlace "$pc" --replace "//nix/store" "/nix/store"
-    done
-  '';
-
   meta = {
     description = ''Implement the ROS middleware interface using Eclipse CycloneDDS in C++.'';
     license = with lib.licenses; [ asl20 ];
